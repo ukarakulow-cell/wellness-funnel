@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page_name }} - LUMINA</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #fafafa; margin: 0; color: #333; }
+        .navbar { background-color: #111; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; color: white; }
+        .logo a { font-size: 24px; font-weight: 900; letter-spacing: 2px; color: white; text-decoration: none; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: #ccc; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; transition: color 0.2s; }
+        .nav-links a:hover { color: white; }
+        .content { max-width: 800px; margin: 100px auto; text-align: center; padding: 40px; background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 5px solid #111;}
+        h1 { font-size: 32px; margin-bottom: 15px; }
+        p { color: #666; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><a href="/dashboard/">LUMINA HUB</a></div>
+        <div class="nav-links">
+            <a href="{% url 'blank_page' 'shop' %}">Shop</a>
+            <a href="{% url 'blank_page' 'coaching' %}">Coaching</a>
+            <a href="{% url 'blank_page' 'programs' %}">Programs</a>
+            <a href="{% url 'blank_page' 'calculator' %}">Fat Calculate</a>
+        </div>
+    </nav>
+
+    <div class="content">
+        <h1>{{ page_name }}</h1>
+        <p>This page is currently under construction. New features are coming soon!</p>
+    </div>
+
+</body>
+</html>

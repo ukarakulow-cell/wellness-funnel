@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Journey</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #fafafa; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
+        .navbar { width: 100%; background-color: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; box-sizing: border-box; position: fixed; top: 0; z-index: 100; }
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; color: #111; }
+        .nav-links a { text-decoration: none; color: #888; margin-left: 30px; font-weight: bold; font-size: 14px; text-transform: uppercase; transition: color 0.2s; }
+        .nav-links a:hover { color: #111; }
+        .nav-links a.active { color: #3b82f6; border-bottom: 2px solid #3b82f6; padding-bottom: 5px; }
+        .quiz-wrapper { margin-top: 120px; width: 100%; display: flex; justify-content: center; }
+        .quiz-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 450px; text-align: center; transition: opacity 0.3s, transform 0.3s; }
+        .progress { color: #888; font-size: 14px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: bold; }
+        .question-text { font-size: 24px; font-weight: bold; color: #222; margin-bottom: 35px; line-height: 1.4; }
+        .option-btn { display: block; width: 100%; padding: 20px; margin-bottom: 15px; background-color: #fff; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 18px; font-weight: bold; color: #475569; cursor: pointer; transition: all 0.2s ease-in-out; }
+        .option-btn:hover { border-color: #3b82f6; background-color: #eff6ff; color: #1d4ed8; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(59, 130, 246, 0.1); }
+        
+        /* Tıklandığı an butonu mavi yapacak yeni özellik */
+        .option-btn.selected { background-color: #3b82f6; color: white; border-color: #3b82f6; transform: scale(0.98); }
+        .slide-out { opacity: 0; transform: translateX(-50px); }
+    </style>
+</head>
+<body>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Journey</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #fafafa; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; overflow-x: hidden; }
+        .quiz-wrapper { width: 100%; display: flex; justify-content: center; padding: 20px; box-sizing: border-box; }
+        .quiz-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 450px; text-align: center; transition: opacity 0.3s, transform 0.3s; }
+        .progress { color: #888; font-size: 14px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: bold; }
+        .question-text { font-size: 24px; font-weight: bold; color: #222; margin-bottom: 35px; line-height: 1.4; }
+        .option-btn { display: block; width: 100%; padding: 20px; margin-bottom: 15px; background-color: #fff; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 18px; font-weight: bold; color: #475569; cursor: pointer; transition: all 0.2s ease-in-out; }
+        .option-btn:hover { border-color: #3b82f6; background-color: #eff6ff; color: #1d4ed8; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(59, 130, 246, 0.1); }
+        .option-btn.selected { background-color: #3b82f6; color: white; border-color: #3b82f6; transform: scale(0.98); }
+        .slide-out { opacity: 0; transform: translateX(-50px); }
+    </style>
+</head>
+<body>
+
+<div class="quiz-wrapper">
+    <div class="quiz-container" id="quizBox">
+        <div class="progress">Step {{ step }} of 6</div>
+        <div class="question-text">{{ question.text }}</div>
+
+        <form id="quizForm" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="answer" id="selectedAnswer" value="">
+            {% for key, text in question.options.items %}
+                <button type="button" class="option-btn" onclick="submitAnswer('{{ key }}', this)">{{ text }}</button>
+            {% endfor %}
+        </form>
+    </div>
+</div>
+
+<script>
+    function submitAnswer(answerVal, btnElement) {
+        btnElement.classList.add('selected');
+        document.getElementById('selectedAnswer').value = answerVal;
+        const quizBox = document.getElementById('quizBox');
+        setTimeout(() => { quizBox.classList.add('slide-out'); }, 150);
+        setTimeout(() => { document.getElementById('quizForm').submit(); }, 400);
+    }
+</script>
+
+</body>
+</html>

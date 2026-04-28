@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Member Hub - LUMINA</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #fafafa; margin: 0; padding: 0; color: #333; }
+        
+        /* Üst Menü */
+        .navbar { background-color: #111; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; color: white; }
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: #ccc; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 5px; }
+
+        /* Ana İçerik Alanı */
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .welcome-banner { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 40px; text-align: center; border-top: 5px solid #3b82f6; }
+        .welcome-banner h1 { margin: 0 0 10px 0; font-size: 28px; }
+        .welcome-banner p { color: #666; font-size: 16px; margin: 0; }
+
+        /* Ürün Kartları (Grid Sistemi) */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .product-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); text-align: center; border: 1px solid #eee; transition: transform 0.2s; }
+        .product-card:hover { transform: translateY(-5px); }
+        .product-image { background: #f1f5f9; height: 200px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 50px; }
+        .product-title { font-size: 20px; font-weight: bold; margin-bottom: 10px; }
+        .product-desc { color: #666; font-size: 14px; margin-bottom: 20px; line-height: 1.5; }
+        .buy-btn { background-color: #3b82f6; color: white; border: none; padding: 15px 30px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        .buy-btn:hover { background-color: #2563eb; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">LUMINA HUB</div>
+        <div class="nav-links">
+            <a href="/dashboard/" class="active">Shop</a>
+            <a href="{% url 'blank_page' 'coaching' %}">Coaching</a>
+            <a href="{% url 'blank_page' 'programs' %}">Programs</a>
+            <a href="{% url 'blank_page' 'calculator' %}">Fat Calculate</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="welcome-banner">
+            <h1>Your Custom Store is Ready!</h1>
+            <p>We've curated these specific products based on your body goals.</p>
+        </div>
+
+        <div class="products-grid">
+            
+            {% if goal == 'A' %}
+            <div class="product-card">
+                <div class="product-image">💊</div>
+                <div class="product-title">Cortisol Balancer Pro</div>
+                <div class="product-desc">Flattens your belly by reducing stress hormones and fighting deep stubborn bloat.</div>
+                <button class="buy-btn">Get it for $49</button>
+            </div>
+            <div class="product-card">
+                <div class="product-image">🍵</div>
+                <div class="product-title">Gut Health Detox Tea</div>
+                <div class="product-desc">Cleanses your digestive system overnight to wake up feeling light and energetic.</div>
+                <button class="buy-btn">Get it for $29</button>
+            </div>
+
+            {% elif goal == 'B' %}
+            <div class="product-card">
+                <div class="product-image">🔥</div>
+                <div class="product-title">Metabolism Igniter Drops</div>
+                <div class="product-desc">Speeds up your resting metabolic rate so you burn calories even while sleeping.</div>
+                <button class="buy-btn">Get it for $55</button>
+            </div>
+            <div class="product-card">
+                <div class="product-image">🥗</div>
+                <div class="product-title">Craving Blocker Gummies</div>
+                <div class="product-desc">Stops 3 PM sugar cravings instantly and keeps you full for hours.</div>
+                <button class="buy-btn">Get it for $35</button>
+            </div>
+
+            {% elif goal == 'C' %}
+            <div class="product-card">
+                <div class="product-image">💪</div>
+                <div class="product-title">Lean Muscle Whey Protein</div>
+                <div class="product-desc">Premium grass-fed protein to repair muscles and build that toned, athletic look.</div>
+                <button class="buy-btn">Get it for $65</button>
+            </div>
+            <div class="product-card">
+                <div class="product-image">⚡</div>
+                <div class="product-title">BCAA Recovery Powder</div>
+                <div class="product-desc">Drink during your workouts to prevent soreness and maximize muscle growth.</div>
+                <button class="buy-btn">Get it for $40</button>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+</body>
+</html>
+<style>
+    footer {
+        background-color: #f1f5f9;
+        padding: 40px 20px;
+        margin-top: 60px;
+        border-top: 1px solid #e2e8f0;
+        color: #64748b;
+        font-size: 13px;
+    }
+    .footer-links { margin-bottom: 15px; }
+    .footer-links a { 
+        color: #64748b; text-decoration: none; margin: 0 10px; font-weight: bold; 
+    }
+    .footer-links a:hover { color: #333; }
+</style>
+
+<footer>
+    <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Scientific References</a>
+    </div>
+    <p>&copy; 2026 LUMINA Wellness Hub. All rights reserved.</p>
+    <p>Contact: support@lumina-wellness.com</p>
+    <p style="max-width: 800px; margin: 20px auto; line-height: 1.6; font-size: 11px;">
+        Disclaimer: The information provided on this site is for educational purposes only and is not intended as medical advice. 
+        Always consult with a healthcare professional before starting any diet or exercise program.
+    </p>
+</footer>
