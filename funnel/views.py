@@ -87,3 +87,6 @@ def dashboard_view(request):
 def blank_page(request, page_name):
     # Hangi linke tıklandığını isminden anlar (örn: "shop")
     return render(request, 'funnel/blank.html', {'page_name': page_name.upper()})
+def home_redirect(request):
+    # Ana sayfaya girenleri direkt 1. soruya fırlatır
+    return redirect('quiz_step', step=1)
