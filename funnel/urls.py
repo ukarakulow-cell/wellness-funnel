@@ -12,3 +12,9 @@ urlpatterns = [
     path('page/<str:page_name>/', views.blank_page, name='blank_page'),
 ]
 path('save-goal/', views.save_goal, name='save_goal'),
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.quiz_view, name='quiz_home'),
+]

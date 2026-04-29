@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Discovery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#F9F6F0] text-gray-800 font-sans antialiased">
+
+    <header class="w-full py-6 flex justify-between items-center bg-white shadow-sm px-8">
+        <h1 class="text-2xl font-serif font-bold text-[#4A5D4E]">Wellness<span class="text-gray-500">Co.</span></h1>
+        <a href="#" class="text-sm font-medium text-gray-500 hover:text-[#4A5D4E]">Body Index Tool</a>
+    </header>
+
+    <main class="max-w-2xl mx-auto mt-16 px-6">
+        
+        <div id="step-0" class="text-center transition-all duration-500">
+            <h2 class="text-4xl font-serif font-extrabold text-[#2C3E30] mb-4">Stop Guessing. Start Transforming.</h2>
+            <p class="text-lg text-gray-600 mb-8">Answer 5 simple questions to unlock your personalized protocol.</p>
+            <button onclick="nextStep('step-category')" class="w-full md:w-auto px-8 py-4 bg-[#D97757] text-white font-bold rounded-full hover:bg-[#C26244] shadow-lg text-lg">
+                Take the 30-Second Quiz
+            </button>
+        </div>
+
+        <div id="step-category" class="hidden text-center transition-all duration-500">
+            <h3 class="text-2xl font-bold mb-6">What is your #1 wellness goal right now?</h3>
+            <div class="space-y-3">
+                <button onclick="setCategory('weight_loss')" class="block w-full p-4 border-2 border-gray-200 rounded-xl hover:border-[#4A5D4E] hover:bg-white text-left font-medium">🌿 Lowering cortisol & beating bloat</button>
+                <button onclick="setCategory('energy')" class="block w-full p-4 border-2 border-gray-200 rounded-xl hover:border-[#4A5D4E] hover:bg-white text-left font-medium">⚡ Resetting nervous system & energy</button>
+                <button onclick="setCategory('muscle')" class="block w-full p-4 border-2 border-gray-200 rounded-xl hover:border-[#4A5D4E] hover:bg-white text-left font-medium">💪 Building lean muscle & toning</button>
+                <button onclick="setCategory('beauty')" class="block w-full p-4 border-2 border-gray-200 rounded-xl hover:border-[#4A5D4E] hover:bg-white text-left font-medium">✨ Healing skin barrier & glowing</button>
+            </div>
+        </div>
+
+        <div id="step-age" class="hidden text-center transition-all duration-500">
+            <h3 class="text-2xl font-bold mb-6">To perfectly tailor your protocol, what is your age range?</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="saveAgeAndStartQuestions('18-25')" class="p-4 border-2 border-gray-200 rounded-xl hover:border-[#4A5D4E] hover:bg-white font-medium">18 - 25</button>
+                <button onclick="saveAgeAndStartQuestions('26-35')" class="p-4 border-2 border-gray-200 rounded-xl hover:border-[#4A5D4E] hover:bg-white font-medium">26 - 35</button>
+                <button onclick="saveAgeAndStartQuestions('36-45')" class="p-4 border-2 border-gray-200 rounded-xl hover:border-[#4A5D4E] hover:bg-white font-medium">36 - 45</button>
+                <button onclick="saveAgeAndStartQuestions('46+')" class="p-4 border-2 border-gray-200 rounded-xl hover:border-[#4A5D4E] hover:bg-white font-medium">46+</button>
+            </div>
+        </div>
+
+        <div id="step-dynamic" class="hidden text-center transition-all duration-500">
+            <h3 id="dynamic-question-title" class="text-2xl font-bold mb-6"></h3>
+            <div id="dynamic-options" class="space-y-3">
+                </div>
+        </div>
+
+        <div id="step-email" class="hidden text-center transition-all duration-500">
+            <h2 class="text-3xl font-serif font-bold text-[#2C3E30] mb-4">Your Results are Ready!</h2>
+            <p class="text-md text-gray-600 mb-6">We found a 94% match. Where should we send your custom protocol and missing supplement list?</p>
+            <form action="" method="POST" class="space-y-4 max-w-md mx-auto">
+                <input type="email" placeholder="Enter your email address" required class="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4A5D4E]">
+                <button type="submit" class="w-full p-4 bg-[#4A5D4E] text-white font-bold rounded-xl hover:bg-[#2C3E30] transition">Reveal My Results Now</button>
+                <p class="text-xs text-gray-400 mt-2">🔒 Your privacy is guaranteed.</p>
+            </form>
+        </div>
+
+    </main>
+
+    <script>
+        // Senin belirlediğin empatik soru veritabanı (JSON Formatı)
+        const quizDatabase = {
+            weight_loss: [
+                { q: "How do your mornings feel?", options: ["Energized!", "Still tired after 8 hours", "Wired but exhausted"] },
+                { q: "When does the 'food baby' (bloat) hit hardest?", options: ["Right after breakfast", "Creeps up by evening", "After a stressful day"] },
+                { q: "Where does your body hold onto stubborn stress?", options: ["Midsection & belly", "All over", "Hips & thighs"] },
+                { q: "How much caffeine gets you through the day?", options: ["0-1: I'm good", "2-3: Need my fix", "4+: Pure survival mode"] }
+            ],
+            energy: [
+                { q: "Do you ever get that afternoon 'Brain Fog'?", options: ["Never, I'm sharp", "Always after lunch", "Daily struggle to focus"] },
+                { q: "What happens when your head hits the pillow?", options: ["Out in 15 mins", "Mind starts racing", "Wake up at 3 AM"] },
+                { q: "How does your body react to a stressful day?", options: ["I stay pretty chill", "Little things pile up", "Constant survival mode"] },
+                { q: "When does your energy typically crash?", options: ["It doesn't", "Always around 3 PM", "The second I get home"] }
+            ],
+            muscle: [
+                { q: "What's your current movement vibe?", options: ["High intensity & lifting", "Low impact like Pilates", "Just starting out"] },
+                { q: "How do your muscles feel the day after?", options: ["Good & tight", "Painfully sore for days", "Like I didn't push hard enough"] },
+                { q: "What's the biggest roadblock to seeing your tone?", options: ["A stubborn soft layer", "Hard to eat enough protein", "Zero energy to finish"] },
+                { q: "How often are you doing strength work?", options: ["3+ days", "1-2 days", "Mostly just cardio"] }
+            ],
+            beauty: [
+                { q: "What is your skin trying to tell you lately?", options: ["Looking dull & tired", "Occasional angry breakouts", "Feeling dry & tight"] },
+                { q: "Does your skin act up when your stomach is upset?", options: ["Yes, bloat = breakouts", "Not really", "Never noticed"] },
+                { q: "Be honest, how is your daily water intake?", options: ["I'm a hydration pro", "I try but forget", "Mostly iced coffee & sodas"] },
+                { q: "What's your ultimate dream result here?", options: ["That lit-from-within glow", "Thicker, healthier hair", "Smooth out texture"] }
+            ]
+        };
+
+        // Kullanıcı Verileri
+        let userData = {
+            category: '',
+            age: '',
+            answers: []
+        };
+        
+        let currentQuestionIndex = 0;
+
+        // Sayfa Değiştirme Fonksiyonu
+        function nextStep(stepId) {
+            document.querySelectorAll('main > div').forEach(el => el.classList.add('hidden'));
+            document.getElementById(stepId).classList.remove('hidden');
+        }
+
+        // Kategori Seçildiğinde
+        function setCategory(category) {
+            userData.category = category;
+            nextStep('step-age');
+        }
+
+        // Yaş Seçildiğinde Dinamik Soruları Başlat
+        function saveAgeAndStartQuestions(age) {
+            userData.age = age;
+            currentQuestionIndex = 0;
+            renderQuestion();
+            nextStep('step-dynamic');
+        }
+
+        // Seçilen Kategoriye Göre Soruyu Ekrana Bas
+        function renderQuestion() {
+            const categoryQuestions = quizDatabase[userData.category];
+            
+            // Eğer sorular bittiyse e-posta kapısına git
+            if (currentQuestionIndex >= categoryQuestions.length) {
+                nextStep('step-email');
+                return;
+            }
+
+            const currentQ = categoryQuestions[currentQuestionIndex];
+            document.getElementById('dynamic-question-title').innerText = currentQ.q;
+            
+            const optionsContainer = document.getElementById('dynamic-options');
+            optionsContainer.innerHTML = ''; // Önceki şıkları temizle
+
+            currentQ.options.forEach(optionText => {
+                const btn = document.createElement('button');
+                btn.className = "block w-full p-4 border-2 border-gray-200 rounded-xl hover:border-[#4A5D4E] hover:bg-white text-left font-medium";
+                btn.innerText = optionText;
+                btn.onclick = () => saveAnswerAndNext(optionText);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // Cevabı Kaydet ve Sonraki Soruya Geç
+        function saveAnswerAndNext(answer) {
+            userData.answers.push(answer);
+            currentQuestionIndex++;
+            renderQuestion();
+        }
+    </script>
+</body>
+</html>

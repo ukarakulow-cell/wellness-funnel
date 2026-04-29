@@ -90,12 +90,12 @@ def blank_page(request, page_name):
 def landing_page(request):
     # Ana kapıdan girenleri artık yepyeni Landing Page'e alıyoruz
     return render(request, 'funnel/landing.html')
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 
-def quiz_view(request, step=1):
-    # Yeni tasarım tek sayfa olduğu için sadece sayfayı yüklemesi yeterli
-    return render(request, 'funnel/quiz.html')
-
+def quiz_view(request):
+    # Eğer kullanıcı formu doldurup gönderirse (POST) API işlemleri buraya gelecek.
+    # Şimdilik sadece HTML sayfasını ekrana basıyoruz (GET).
+    return render(request, 'funnel/index.html')
 def save_goal(request):
     # JS'den gelen hedefi oturuma (session) kaydeder
     goal = request.GET.get('goal', 'A')
