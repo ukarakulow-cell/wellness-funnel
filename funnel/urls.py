@@ -8,3 +8,4 @@ urlpatterns = [
     path('dashboard/', views.dashboard_view, name='dashboard'),
     path('page/<str:page_name>/', views.blank_page, name='blank_page'),
 ]
+path('save-goal/', views.save_goal, name='save_goal'),

@@ -90,3 +90,17 @@ def blank_page(request, page_name):
 def home_redirect(request):
     # Ana sayfaya girenleri direkt 1. soruya fırlatır
     return redirect('quiz_step', step=1)
+from django.shortcuts import render, redirect
+
+def quiz_view(request, step=1):
+    # Yeni tasarım tek sayfa olduğu için sadece sayfayı yüklemesi yeterli
+    return render(request, 'funnel/quiz.html')
+
+def save_goal(request):
+    # JS'den gelen hedefi oturuma (session) kaydeder
+    goal = request.GET.get('goal', 'A')
+    request.session['question_1'] = goal
+    from django.http import JsonResponse
+    return JsonResponse({'status': 'ok'})
+
+# bridge_page ve dashboard_view fonksiyonların olduğu gibi kalsın...

@@ -1,74 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wellness Journey</title>
-    <style>
-        body { font-family: 'Arial', sans-serif; background-color: #fafafa; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
-        .navbar { width: 100%; background-color: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; box-sizing: border-box; position: fixed; top: 0; z-index: 100; }
-        .logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; color: #111; }
-        .nav-links a { text-decoration: none; color: #888; margin-left: 30px; font-weight: bold; font-size: 14px; text-transform: uppercase; transition: color 0.2s; }
-        .nav-links a:hover { color: #111; }
-        .nav-links a.active { color: #3b82f6; border-bottom: 2px solid #3b82f6; padding-bottom: 5px; }
-        .quiz-wrapper { margin-top: 120px; width: 100%; display: flex; justify-content: center; }
-        .quiz-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 450px; text-align: center; transition: opacity 0.3s, transform 0.3s; }
-        .progress { color: #888; font-size: 14px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: bold; }
-        .question-text { font-size: 24px; font-weight: bold; color: #222; margin-bottom: 35px; line-height: 1.4; }
-        .option-btn { display: block; width: 100%; padding: 20px; margin-bottom: 15px; background-color: #fff; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 18px; font-weight: bold; color: #475569; cursor: pointer; transition: all 0.2s ease-in-out; }
-        .option-btn:hover { border-color: #3b82f6; background-color: #eff6ff; color: #1d4ed8; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(59, 130, 246, 0.1); }
-        
-        /* Tıklandığı an butonu mavi yapacak yeni özellik */
-        .option-btn.selected { background-color: #3b82f6; color: white; border-color: #3b82f6; transform: scale(0.98); }
-        .slide-out { opacity: 0; transform: translateX(-50px); }
-    </style>
-</head>
-<body>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wellness Journey</title>
-    <style>
-        body { font-family: 'Arial', sans-serif; background-color: #fafafa; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; overflow-x: hidden; }
-        .quiz-wrapper { width: 100%; display: flex; justify-content: center; padding: 20px; box-sizing: border-box; }
-        .quiz-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 450px; text-align: center; transition: opacity 0.3s, transform 0.3s; }
-        .progress { color: #888; font-size: 14px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: bold; }
-        .question-text { font-size: 24px; font-weight: bold; color: #222; margin-bottom: 35px; line-height: 1.4; }
-        .option-btn { display: block; width: 100%; padding: 20px; margin-bottom: 15px; background-color: #fff; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 18px; font-weight: bold; color: #475569; cursor: pointer; transition: all 0.2s ease-in-out; }
-        .option-btn:hover { border-color: #3b82f6; background-color: #eff6ff; color: #1d4ed8; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(59, 130, 246, 0.1); }
-        .option-btn.selected { background-color: #3b82f6; color: white; border-color: #3b82f6; transform: scale(0.98); }
-        .slide-out { opacity: 0; transform: translateX(-50px); }
-    </style>
-</head>
-<body>
-
-<div class="quiz-wrapper">
-    <div class="quiz-container" id="quizBox">
-        <div class="progress">Step {{ step }} of 6</div>
-        <div class="question-text">{{ question.text }}</div>
-
-        <form id="quizForm" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="answer" id="selectedAnswer" value="">
-            {% for key, text in question.options.items %}
-                <button type="button" class="option-btn" onclick="submitAnswer('{{ key }}', this)">{{ text }}</button>
-            {% endfor %}
-        </form>
-    </div>
-</div>
-
-<script>
-    function submitAnswer(answerVal, btnElement) {
-        btnElement.classList.add('selected');
-        document.getElementById('selectedAnswer').value = answerVal;
-        const quizBox = document.getElementById('quizBox');
-        setTimeout(() => { quizBox.classList.add('slide-out'); }, 150);
-        setTimeout(() => { document.getElementById('quizForm').submit(); }, 400);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMINA Wellness Assessment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sage: #4a6741;
+      --sage-light: #7a9b71;
+      --sage-pale: #eef3ec;
+      --amber: #3b82f6; /* Aksiyon rengini LUMINA mavisine çevirdik */
+      --amber-light: #60a5fa;
+      --amber-pale: #eff6ff;
+      --stone: #2c2a25;
+      --stone-mid: #5a5650;
+      --stone-light: #9a9690;
+      --stone-pale: #f5f3ef;
+      --cream: #faf8f4;
+      --white: #ffffff;
+      --radius: 14px;
+      --radius-sm: 9px;
+      --shadow: 0 2px 20px rgba(44, 42, 37, 0.10);
+      --shadow-hover: 0 6px 28px rgba(44, 42, 37, 0.16);
     }
-</script>
 
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--stone);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 0 60px;
+    }
+
+    .hero {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 24px;
+      position: relative;
+      overflow: hidden;
+      background: var(--stone);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      /* Arka planı estetik bir wellness görseli ile değiştirdik */
+      background-image: url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1520&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.25;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+    }
+
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(38px, 7vw, 68px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--amber-light);
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.6;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    .path-btn {
+      padding: 18px 24px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: transform 0.2s, background 0.2s;
+      min-width: 250px;
+      text-align: center;
+    }
+    
+    .path-btn:hover {
+        transform: translateY(-3px);
+    }
+
+    .path-btn.primary {
+      background: var(--amber);
+      color: var(--white);
+    }
+
+    .quiz-shell {
+      display: none;
+      width: 100%;
+      max-width: 560px;
+      padding: 24px 16px 0;
+      opacity: 1;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .quiz-shell.active {
+      display: block;
+    }
+    
+    /* Sorular arası geçiş efekti için */
+    .fade-out {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 4px;
+      background: rgba(44, 42, 37, 0.1);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--sage), var(--amber-light));
+      transition: width 0.5s ease;
+    }
+
+    .q-card {
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 32px 28px 24px;
+      margin-bottom: 16px;
+    }
+
+    .q-text {
+      font-family: 'Fraunces', serif;
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .opt {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 16px 18px;
+      border: 2px solid rgba(44, 42, 37, 0.08);
+      border-radius: 12px;
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .opt:hover {
+      border-color: var(--amber-light);
+      background: var(--amber-pale);
+      transform: translateY(-2px);
+    }
+
+    .opt.selected {
+      border-color: var(--sage);
+      background: var(--sage-pale);
+      transform: scale(0.98);
+    }
+
+    .results-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <h1>Discover your <em>Metabolic</em> Profile</h1>
+      <p>Not a generic diet. A personalized plan based on your unique body type, daily routines, and specific goals.</p>
+      <button class="path-btn primary" onclick="startQuiz()">
+        <strong style="font-size: 18px;">Take The 6-Step Quiz</strong><br>
+        <span style="font-size:13px; opacity:0.9;">Takes less than 60 seconds</span>
+      </button>
+    </div>
+  </section>
+
+  <div class="quiz-shell" id="quiz-shell">
+    <div class="progress-track">
+      <div class="progress-fill" id="prog-fill"></div>
+    </div>
+    <p id="prog-label" style="font-size:13px; margin: 12px 0 20px; font-weight: bold; color: var(--stone-light); letter-spacing: 1px;">STEP 1 OF 6</p>
+    
+    <div class="q-card" id="q-card">
+        </div>
+  </div>
+
+  <div class="quiz-shell hidden" id="results-shell">
+    <div class="results-card">
+      <h2 style="font-family:Fraunces; font-size:32px; color:var(--stone); margin-bottom: 15px;">Analysis Complete</h2>
+      <p style="font-size: 18px; color:var(--stone-mid); margin-bottom: 25px;">We've identified your primary blockers and prepared your custom dashboard.</p>
+      
+      <button class="path-btn primary" style="width: 100%; padding: 20px; font-size: 18px;" onclick="window.location.href='/bridge/'">
+        <strong>Unlock My Custom Plan</strong>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // LUMINA Wellness Huni Soruları
+    const QUESTIONS = [
+      {
+        id: 'question_1', // ANA YÖNLENDİRME SORUSU
+        text: 'What is your primary body goal right now?',
+        hint: 'Be honest, what bothers you the most?',
+        options: [
+          { label: 'Lose belly fat & bloat', sub: 'Target stubborn midsection fat' },
+          { label: 'Drop overall weight', sub: 'Slim down completely' },
+          { label: 'Tone up & build lean muscle', sub: 'Get that tight, athletic look' }
+        ]
+      },
+      {
+        id: 'cravings',
+        text: 'When do sugar cravings hit you the hardest?',
+        options: [
+          { label: 'Morning', sub: 'Right after waking up' },
+          { label: '3:00 PM Slump', sub: 'Mid-afternoon energy crash' },
+          { label: 'Late at Night', sub: 'While watching TV or relaxing' }
+        ]
+      },
+      {
+        id: 'energy',
+        text: 'How would you describe your daily energy levels?',
+        options: [
+          { label: 'Constantly exhausted', sub: 'Struggle to get out of bed' },
+          { label: 'Rollercoaster', sub: 'Highs and sudden lows' },
+          { label: 'Pretty good', sub: 'Just need an extra edge' }
+        ]
+      },
+      {
+        id: 'sleep',
+        text: 'How many hours of quality sleep do you get?',
+        options: [
+          { label: 'Under 5 hours', sub: 'I toss and turn' },
+          { label: '5 to 7 hours', sub: 'Average, but I wake up tired' },
+          { label: '7+ hours', sub: 'I sleep deeply' }
+        ]
+      },
+      {
+        id: 'activity',
+        text: 'How often do you currently exercise?',
+        options: [
+          { label: 'Rarely / Never', sub: 'Just everyday walking' },
+          { label: '1-2 times a week', sub: 'Occasional workouts' },
+          { label: '3+ times a week', sub: 'Consistent routine' }
+        ]
+      },
+      {
+        id: 'obstacle',
+        text: 'What feels like your biggest obstacle?',
+        options: [
+          { label: 'Slow metabolism', sub: 'I eat well but don\'t lose weight' },
+          { label: 'Stress / Cortisol', sub: 'Emotional eating and high anxiety' },
+          { label: 'Lack of time', sub: 'Too busy for complex routines' }
+        ]
+      }
+    ];
+
+    let cur = 0;
+    let answers = {};
+    const quizShell = document.getElementById('quiz-shell');
+
+    function startQuiz() {
+      document.getElementById('hero').classList.add('hidden');
+      quizShell.classList.add('active');
+      render();
+    }
+
+    function render() {
+      const q = QUESTIONS[cur];
+      document.getElementById('prog-label').innerText = `STEP ${cur + 1} OF ${QUESTIONS.length}`;
+      document.getElementById('prog-fill').style.width = `${((cur + 1) / QUESTIONS.length) * 100}%`;
+      
+      let html = `<p class="q-text">${q.text}</p>`;
+      if (q.hint) html += `<p style="font-size:14px; color:var(--stone-light); margin-bottom:20px;">${q.hint}</p>`;
+      
+      q.options.forEach((opt, i) => {
+        // Önceden seçiliyse stili uygula
+        const isSelected = answers[q.id] === i ? 'selected' : '';
+        html += `
+        <div class="opt ${isSelected}" onclick="select(${i})">
+          <div><strong style="font-size: 17px;">${opt.label}</strong><br><small style="color: var(--stone-mid); font-size: 13px;">${opt.sub}</small></div>
+        </div>`;
+      });
+      
+      document.getElementById('q-card').innerHTML = html;
+      quizShell.classList.remove('fade-out'); // Ekrana yumuşak geliş
+    }
+
+    function select(i) {
+      // 1. Cevabı kaydet
+      answers[QUESTIONS[cur].id] = i;
+      
+      // 2. Ekranda yeşil yanmasını (selected class) anında göster
+      render();
+      
+      // 3. Yarım saniye bekle ve sonraki soruya OTOMATİK geç
+      setTimeout(() => {
+          quizShell.classList.add('fade-out'); // Çıkış animasyonu
+          setTimeout(() => {
+             nextQ();
+          }, 200); // 200ms sonra veriyi değiştir
+      }, 350); // Şıkka tıkladıktan 350ms sonra işlem başlar
+    }
+
+    function nextQ() {
+      if (cur < QUESTIONS.length - 1) {
+        cur++;
+        render();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('quiz-shell').classList.remove('active');
+      document.getElementById('results-shell').classList.remove('hidden');
+    }
+  </script>
 </body>
+
 </html>
