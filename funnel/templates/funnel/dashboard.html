@@ -3,129 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Member Hub - LUMINA</title>
-    <style>
-        body { font-family: 'Arial', sans-serif; background-color: #fafafa; margin: 0; padding: 0; color: #333; }
-        
-        /* Üst Menü */
-        .navbar { background-color: #111; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; color: white; }
-        .logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { color: #ccc; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; transition: color 0.2s; }
-        .nav-links a:hover, .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 5px; }
-
-        /* Ana İçerik Alanı */
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .welcome-banner { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 40px; text-align: center; border-top: 5px solid #3b82f6; }
-        .welcome-banner h1 { margin: 0 0 10px 0; font-size: 28px; }
-        .welcome-banner p { color: #666; font-size: 16px; margin: 0; }
-
-        /* Ürün Kartları (Grid Sistemi) */
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .product-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); text-align: center; border: 1px solid #eee; transition: transform 0.2s; }
-        .product-card:hover { transform: translateY(-5px); }
-        .product-image { background: #f1f5f9; height: 200px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 50px; }
-        .product-title { font-size: 20px; font-weight: bold; margin-bottom: 10px; }
-        .product-desc { color: #666; font-size: 14px; margin-bottom: 20px; line-height: 1.5; }
-        .buy-btn { background-color: #3b82f6; color: white; border: none; padding: 15px 30px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
-        .buy-btn:hover { background-color: #2563eb; }
-    </style>
+    <title>Your Metabolic Analysis - LUMINA</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sage: '#4a6741',
+                        sageLight: '#7a9b71',
+                        sagePale: '#eef3ec',
+                        cream: '#faf8f4',
+                        stone: '#2c2a25',
+                        amber: '#c17f34',
+                        brandBlue: '#3b82f6',
+                        brandBlueHover: '#2563eb'
+                    },
+                    fontFamily: {
+                        serif: ['Fraunces', 'serif'],
+                        sans: ['DM Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
+<body class="font-sans bg-stone-50 text-stone antialiased">
 
-    <nav class="navbar">
-        <div class="logo">LUMINA HUB</div>
-        <div class="nav-links">
-            <a href="/dashboard/" class="active">Shop</a>
-            <a href="{% url 'blank_page' 'coaching' %}">Coaching</a>
-            <a href="{% url 'blank_page' 'programs' %}">Programs</a>
-            <a href="{% url 'blank_page' 'calculator' %}">Fat Calculate</a>
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="text-xl font-black tracking-widest text-stone">LUMINA</div>
+            <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
+                <a href="#" class="text-stone">Analysis</a>
+                <a href="{% url 'blank_page' 'shop' %}" class="hover:text-stone transition">Shop</a>
+                <a href="{% url 'blank_page' 'coaching' %}" class="hover:text-stone transition">Coaching</a>
+                <a href="{% url 'blank_page' 'programs' %}" class="hover:text-stone transition">Programs</a>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                <span class="text-[10px] font-bold uppercase text-gray-500">Live AI Report</span>
+            </div>
         </div>
     </nav>
 
-    <div class="container">
-        <div class="welcome-banner">
-            <h1>Your Custom Store is Ready!</h1>
-            <p>We've curated these specific products based on your body goals.</p>
+    <main class="max-w-5xl mx-auto px-4 py-12">
+        
+        <div class="text-center mb-16">
+            <p class="text-sage font-bold tracking-[0.2em] text-xs uppercase mb-4">Assessment Results</p>
+            <h1 class="font-serif text-4xl md:text-5xl font-bold mb-6">Your Metabolic Profile is: <br>
+                <span class="italic text-sage">
+                    {% if goal == 'A' %}Cortisol-Heavy / Bloat Prone
+                    {% elif goal == 'B' %}Metabolic Adaptive / Slow Burn
+                    {% elif goal == 'C' %}Ectomorph / Muscle Recovery Mode
+                    {% else %}Standard Metabolic Profile{% endif %}
+                </span>
+            </h1>
+            <div class="inline-flex items-center bg-white px-6 py-3 rounded-full shadow-sm border border-gray-100 gap-3">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-8 h-8 rounded-full bg-sagePale" alt="AI Agent">
+                <span class="text-sm font-medium">Verified by Gemini AI Health Engine</span>
+            </div>
         </div>
 
-        <div class="products-grid">
+        <div class="grid lg:grid-cols-3 gap-8">
             
-            {% if goal == 'A' %}
-            <div class="product-card">
-                <div class="product-image">💊</div>
-                <div class="product-title">Cortisol Balancer Pro</div>
-                <div class="product-desc">Flattens your belly by reducing stress hormones and fighting deep stubborn bloat.</div>
-                <button class="buy-btn">Get it for $49</button>
-            </div>
-            <div class="product-card">
-                <div class="product-image">🍵</div>
-                <div class="product-title">Gut Health Detox Tea</div>
-                <div class="product-desc">Cleanses your digestive system overnight to wake up feeling light and energetic.</div>
-                <button class="buy-btn">Get it for $29</button>
+            <div class="lg:col-span-2 space-y-8">
+                <div class="bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-5">
+                        <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 13.1216 16 12.017 16H9.01703V14H12.017C14.2262 14 16.017 12.2091 16.017 10V7C16.017 5.89543 15.1216 5 14.017 5H11.017C8.80789 5 7.01703 6.79086 7.01703 9V12M14.017 21H7.01703V15H14.017V21Z"/></svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold mb-6 flex items-center gap-3">
+                        <span class="text-sage">✦</span> Personalized Analysis
+                    </h3>
+                    <div class="prose prose-stone max-w-none text-gray-600 leading-relaxed space-y-4">
+                        {% if goal == 'A' %}
+                        <p>Based on your responses, your body is currently trapped in a <strong>"Cortisol Loop."</strong> This means your adrenal system is signaling your body to store deep visceral fat specifically around the midsection as a survival mechanism.</p>
+                        <p>Your reported "3 PM Slump" confirms a glucose-insulin mismatch. While you are eating, the nutrients aren't reaching your cells, they are being redirected to storage, causing that persistent bloat.</p>
+                        {% elif goal == 'B' %}
+                        <p>Your analysis indicates a <strong>"Metabolic Stall."</strong> Your resting metabolic rate has adjusted to previous stress or dieting patterns, becoming hyper-efficient at holding onto every calorie.</p>
+                        <p>To drop overall weight, your primary focus must shift from "eating less" to "signaling safety" to your thyroid. We need to ignite the mitochondrial burn rate which currently shows signs of dormancy.</p>
+                        {% else %}
+                        <p>You have an <strong>"Anabolic Resistance"</strong> profile. Your body is struggling to repair muscle tissue efficiently, which is why you feel you are working out but not seeing the "tight and toned" definition you desire.</p>
+                        <p>Your focus should be on cellular recovery and amino acid bioavailability to force the body to utilize stored fat for muscle synthesis.</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="bg-sage rounded-3xl p-8 md:p-10 text-white">
+                    <h3 class="font-serif text-2xl font-bold mb-10">Your 30-Day Transformation Roadmap</h3>
+                    <div class="relative space-y-12">
+                        <div class="absolute left-4 top-2 bottom-2 w-0.5 bg-white/20"></div>
+                        
+                        <div class="relative pl-12">
+                            <div class="absolute left-0 w-8 h-8 bg-white rounded-full flex items-center justify-center text-sage font-bold text-sm">01</div>
+                            <h4 class="font-bold text-lg mb-1">Phase 1: The Initial Flush (Day 1-7)</h4>
+                            <p class="text-white/70 text-sm">Systemic inflammation drops. You'll notice a significant reduction in water retention and face/belly puffiness.</p>
+                        </div>
+                        
+                        <div class="relative pl-12">
+                            <div class="absolute left-0 w-8 h-8 bg-white rounded-full flex items-center justify-center text-sage font-bold text-sm">14</div>
+                            <h4 class="font-bold text-lg mb-1">Phase 2: Metabolic Shift (Day 14-21)</h4>
+                            <p class="text-white/70 text-sm">The "switch" flips. Your body begins utilizing stored fat as its primary energy source. Energy levels stabilize without the 3 PM crash.</p>
+                        </div>
+
+                        <div class="relative pl-12">
+                            <div class="absolute left-0 w-8 h-8 bg-white rounded-full flex items-center justify-center text-sage font-bold text-sm">30</div>
+                            <h4 class="font-bold text-lg mb-1">Phase 3: Cellular Reset (Day 30+)</h4>
+                            <p class="text-white/70 text-sm">Hormonal balance is restored. The goal moves from "losing" to "maintaining" your new set-point effortlessly.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            {% elif goal == 'B' %}
-            <div class="product-card">
-                <div class="product-image">🔥</div>
-                <div class="product-title">Metabolism Igniter Drops</div>
-                <div class="product-desc">Speeds up your resting metabolic rate so you burn calories even while sleeping.</div>
-                <button class="buy-btn">Get it for $55</button>
-            </div>
-            <div class="product-card">
-                <div class="product-image">🥗</div>
-                <div class="product-title">Craving Blocker Gummies</div>
-                <div class="product-desc">Stops 3 PM sugar cravings instantly and keeps you full for hours.</div>
-                <button class="buy-btn">Get it for $35</button>
-            </div>
+            <div class="space-y-8">
+                
+                <div class="bg-white rounded-3xl p-8 shadow-xl border-2 border-sage relative">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-sage text-white text-[10px] font-bold uppercase tracking-widest px-4 py-1 rounded-full">
+                        Recommended Solution
+                    </div>
+                    
+                    <div class="text-center mb-6 pt-4">
+                        <div class="text-6xl mb-4">
+                            {% if goal == 'A' %}💊{% elif goal == 'B' %}🔥{% else %}💪{% endif %}
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">
+                            {% if goal == 'A' %}Cortisol Balancer Pro
+                            {% elif goal == 'B' %}Metabolism Igniter
+                            {% else %}Lean Muscle Recovery{% endif %}
+                        </h4>
+                        <p class="text-gray-500 text-xs">Targeted Protocol for your Profile</p>
+                    </div>
 
-            {% elif goal == 'C' %}
-            <div class="product-card">
-                <div class="product-image">💪</div>
-                <div class="product-title">Lean Muscle Whey Protein</div>
-                <div class="product-desc">Premium grass-fed protein to repair muscles and build that toned, athletic look.</div>
-                <button class="buy-btn">Get it for $65</button>
-            </div>
-            <div class="product-card">
-                <div class="product-image">⚡</div>
-                <div class="product-title">BCAA Recovery Powder</div>
-                <div class="product-desc">Drink during your workouts to prevent soreness and maximize muscle growth.</div>
-                <button class="buy-btn">Get it for $40</button>
-            </div>
-            {% endif %}
+                    <ul class="text-sm space-y-3 mb-8 text-gray-600">
+                        <li class="flex items-start gap-2">
+                            <span class="text-sage">✓</span> FDA Inspected Facility
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-sage">✓</span> 100% Natural Ingredients
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-sage">✓</span> Non-GMO & Gluten Free
+                        </li>
+                    </ul>
 
+                    <button class="w-full bg-brandBlue text-white py-4 rounded-xl font-bold hover:bg-brandBlueHover transition shadow-lg shadow-blue-200 mb-4">
+                        Claim My 40% Discount
+                    </button>
+                    
+                    <div class="flex items-center justify-center gap-2">
+                        <img src="https://cdn-icons-png.flaticon.com/512/5617/5617885.png" class="w-6 h-6" alt="Guarantee">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase">60-Day Money Back Guarantee</span>
+                    </div>
+                </div>
+
+                <div class="bg-stone-900 rounded-3xl p-8 text-white">
+                    <h4 class="font-serif text-lg font-bold mb-6">Exclusive Bonuses <span class="text-sage-light text-xs block font-sans uppercase mt-1">Included for free today</span></h4>
+                    
+                    <div class="space-y-6">
+                        <div class="flex gap-4 items-center">
+                            <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center text-2xl">📖</div>
+                            <div>
+                                <p class="text-sm font-bold">The 7-Day Anti-Inflammatory Meal Plan</p>
+                                <p class="text-[10px] text-gray-400">PDF Digital Download</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-center">
+                            <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center text-2xl">📱</div>
+                            <div>
+                                <p class="text-sm font-bold">LUMINA Metabolic Tracker App Access</p>
+                                <p class="text-[10px] text-gray-400">Lifetime Account</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-100 py-12 mt-20">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="text-sm font-bold tracking-widest mb-6">LUMINA</div>
+            <p class="text-xs text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Disclaimer: The information provided on this site is for educational purposes only and is not intended as medical advice. 
+                Individual results may vary. Always consult with a healthcare professional before starting any supplement or diet program.
+            </p>
+        </div>
+    </footer>
 
 </body>
 </html>
-<style>
-    footer {
-        background-color: #f1f5f9;
-        padding: 40px 20px;
-        margin-top: 60px;
-        border-top: 1px solid #e2e8f0;
-        color: #64748b;
-        font-size: 13px;
-    }
-    .footer-links { margin-bottom: 15px; }
-    .footer-links a { 
-        color: #64748b; text-decoration: none; margin: 0 10px; font-weight: bold; 
-    }
-    .footer-links a:hover { color: #333; }
-</style>
-
-<footer>
-    <div class="footer-links">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Contact Us</a>
-        <a href="#">Scientific References</a>
-    </div>
-    <p>&copy; 2026 LUMINA Wellness Hub. All rights reserved.</p>
-    <p>Contact: support@lumina-wellness.com</p>
-    <p style="max-width: 800px; margin: 20px auto; line-height: 1.6; font-size: 11px;">
-        Disclaimer: The information provided on this site is for educational purposes only and is not intended as medical advice. 
-        Always consult with a healthcare professional before starting any diet or exercise program.
-    </p>
-</footer>
