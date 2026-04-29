@@ -87,9 +87,9 @@ def dashboard_view(request):
 def blank_page(request, page_name):
     # Hangi linke tıklandığını isminden anlar (örn: "shop")
     return render(request, 'funnel/blank.html', {'page_name': page_name.upper()})
-def home_redirect(request):
-    # Ana sayfaya girenleri direkt 1. soruya fırlatır
-    return redirect('quiz_step', step=1)
+def landing_page(request):
+    # Ana kapıdan girenleri artık yepyeni Landing Page'e alıyoruz
+    return render(request, 'funnel/landing.html')
 from django.shortcuts import render, redirect
 
 def quiz_view(request, step=1):
